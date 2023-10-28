@@ -37,21 +37,31 @@ public class InMemoryProductRepository implements ProductRepository {
 
     @Override
     public Optional<Product> findById(UUID uuid) {
-        return Optional.empty();
+        return Optional.ofNullable(repository.get(uuid));
     }
 
     @Override
     public List<Product> findAll() {
-        return null;
+        return repository.values().stream().toList();
     }
 
     @Override
     public Product save(Product product) {
-        return null;
+        if (product == null) {
+            throw new IllegalArgumentException("Null can't be saved");
+        }
+
+        if (product.getUuid() == null) {
+            UUID randomUuid = UUID.randomUUID();
+            product.setUuid(randomUuid);
+        }
+
+        repository.put(product.getUuid(), product);
+        return product;
     }
 
     @Override
     public void delete(UUID uuid) {
-
+        repository.remove(uuid);
     }
 }
