@@ -1,5 +1,6 @@
 package ru.clevertec.product.service;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -37,6 +38,7 @@ public class ProductServiceImplTest {
     @Captor
     ArgumentCaptor<Product> productCaptor;
 
+    @Test
     public void shouldGet() {
         // given
         UUID id = ProductTestData.builder().build().getUuid();
@@ -62,6 +64,7 @@ public class ProductServiceImplTest {
 
     }
 
+    @Test
     public void shouldThrowWhenCantGet() {
         // given
         UUID id = ProductTestData.builder().build().getUuid();
@@ -74,6 +77,7 @@ public class ProductServiceImplTest {
                 .isInstanceOf(ProductNotFoundException.class);
     }
 
+    @Test
     public void shouldReturnAll() {
         // given
         List<InfoProductDto> expected = List.of(
@@ -122,6 +126,7 @@ public class ProductServiceImplTest {
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
+    @Test
     public void shouldCreate() {
         // given
         ProductDto dto = ProductTestData.builder().build().toProductDto();
@@ -142,6 +147,7 @@ public class ProductServiceImplTest {
         assertThat(actualId).isEqualTo(expected);
     }
 
+    @Test
     public void shouldUpdate() {
         // given
         ProductDto dto = ProductTestData.builder().build().toProductDto();

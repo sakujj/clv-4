@@ -2,6 +2,7 @@ package ru.clevertec.product.mapper;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -26,6 +27,7 @@ public class ProductMapperImplTest {
     }
 
 
+    @Test
     public void shouldMapToProduct() {
         // given
         ProductDto dtoToBeMapped = ProductTestData.builder().build().toProductDto();
@@ -46,6 +48,7 @@ public class ProductMapperImplTest {
         assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
     }
 
+    @Test
     public void shouldMapToInfoProductDto() {
         // given
         Product productToBeMapped = ProductTestData.builder().build().toProduct();
@@ -66,7 +69,8 @@ public class ProductMapperImplTest {
         assertThat(actual.price()).isEqualTo(expected.price());
     }
 
-    public void merge() {
+    @Test
+    public void shouldMerge() {
         // given
         Product productToMerge = Product.builder()
                 .uuid(ProductTestData.builder().build().getUuid())

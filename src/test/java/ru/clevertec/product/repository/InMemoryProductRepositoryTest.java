@@ -1,6 +1,7 @@
 package ru.clevertec.product.repository;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
@@ -26,6 +27,7 @@ public class InMemoryProductRepositoryTest {
         repository = new InMemoryProductRepository();
     }
 
+    @Test
     public void shouldFindById() {
         // given
         UUID idToFindBy = ProductTestData.builder().build().getUuid();
@@ -39,9 +41,10 @@ public class InMemoryProductRepositoryTest {
         assertThat(actual.get()).isEqualTo(expected);
     }
 
+    @Test
     public void shouldNotFindByIdWhenAbsent() {
         // given
-        UUID idToFindBy = UUID.fromString("absentID-39a5-46d7-8635-7184934afc20");
+        UUID idToFindBy = UUID.fromString("ae64ba98-d244-469f-9901-9b9166921423");
         Optional<Product> expected = Optional.empty();
 
         // when
@@ -51,6 +54,7 @@ public class InMemoryProductRepositoryTest {
         assertThat(actual).isEmpty();
     }
 
+    @Test
     public void shouldFindAll() {
         // given
         List<Product> expected = repository.getRepository().values()
@@ -109,6 +113,7 @@ public class InMemoryProductRepositoryTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
     public void shouldUpdate() {
         // given
         Product productToUpdate = repository.getRepository().values().iterator().next();
@@ -127,6 +132,7 @@ public class InMemoryProductRepositoryTest {
         );
     }
 
+    @Test
     public void shouldDelete() {
         // given
         Product productToDelete = repository.getRepository().values().iterator().next();
