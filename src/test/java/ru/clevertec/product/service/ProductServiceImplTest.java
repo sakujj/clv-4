@@ -13,6 +13,7 @@ import ru.clevertec.product.entity.Product;
 import ru.clevertec.product.exception.ProductNotFoundException;
 import ru.clevertec.product.mapper.ProductMapper;
 import ru.clevertec.product.repository.ProductRepository;
+import ru.clevertec.product.service.impl.ProductServiceImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,7 +34,7 @@ public class ProductServiceImplTest {
     ProductRepository productRepository;
 
     @InjectMocks
-    ProductService productService;
+    ProductServiceImpl productService;
 
     @Captor
     ArgumentCaptor<Product> productCaptor;
@@ -123,6 +124,8 @@ public class ProductServiceImplTest {
         List<InfoProductDto> actual = productService.getAll();
 
         // then
+        Mockito.verify(productRepository).findAll();
+        Mockito.verify(productMapper, Mockito.times(expected.size())).toInfoProductDto(Mockito.any());
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
@@ -162,11 +165,12 @@ public class ProductServiceImplTest {
         // then
         Mockito.verify(productMapper).toProduct(dto);
         Mockito.verify(productRepository).save(productCaptor.capture());
-        assertThat(productCaptor.capture().getUuid()).isEqualTo(uuid);
-        assertThat(productCaptor.capture().getName()).isEqualTo(product.getName());
-        assertThat(productCaptor.capture().getDescription()).isEqualTo(product.getDescription());
-        assertThat(productCaptor.capture().getPrice()).isEqualTo(product.getPrice());
-        assertThat(productCaptor.capture().getCreated()).isEqualTo(product.getCreated());
+        Product captured = productCaptor.getValue();
+        assertThat(captured.getUuid()).isEqualTo(uuid);
+        assertThat(captured.getName()).isEqualTo(product.getName());
+        assertThat(captured.getDescription()).isEqualTo(product.getDescription());
+        assertThat(captured.getPrice()).isEqualTo(product.getPrice());
+        assertThat(captured.getCreated()).isEqualTo(product.getCreated());
     }
 
     @ParameterizedTest
