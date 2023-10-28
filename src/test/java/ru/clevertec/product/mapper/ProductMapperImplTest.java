@@ -3,27 +3,21 @@ package ru.clevertec.product.mapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import ru.clevertec.product.ProductTestData;
 import ru.clevertec.product.data.InfoProductDto;
 import ru.clevertec.product.data.ProductDto;
 import ru.clevertec.product.entity.Product;
-import ru.clevertec.product.mapper.impl.ProductMapperImpl;
 
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.map;
 
 public class ProductMapperImplTest {
     private ProductMapper mapper;
 
     @BeforeEach
     public void setUp() {
-        mapper = new ProductMapperImpl();
+        mapper = Mappers.getMapper(ProductMapper.class);
     }
 
 
@@ -36,6 +30,7 @@ public class ProductMapperImplTest {
                 .withName(dtoToBeMapped.name())
                 .withPrice(dtoToBeMapped.price())
                 .withDescription(dtoToBeMapped.description())
+                .withCreated(null)
                 .build();
 
         // when
